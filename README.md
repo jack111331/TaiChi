@@ -1,4 +1,5 @@
 # Tai-Chi: Text-to-Motion Generation with Locality-Aware Bipartite Body-Part Motion Prior
+This repository accompanies a manuscript currently under review at The Visual Computer.
 ## Abstract
 With rising demands in animation production, text-to-motion generation has become essential for the film and gaming industries. Yet, generating high-fidelity motions that seamlessly align with intended semantic meanings remains an open challenge.
 To address this issue and effectively model diverse human activities, we introduce a part-decomposed motion vector quantised-variational autoencoder (PM-VQ-VAE), which encodes upper- and lower-body motions separately into discrete codebooks—forming a bipartite body-part motion prior that enables more precise representation of individual body-part movements. During decoding, PM-VQ-VAE explicitly considers the coordination between upper- and lower-body parts, enabling the synthesis of high-fidelity and varied full-body motions.
