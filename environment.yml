@@ -1,0 +1,40 @@
+name: TaiChi
+channels:
+  - pytorch
+  - menpo
+  - nvidia
+  - defaults
+dependencies:
+  - cuda-toolkit=11.6.1
+  - pip=23.2.1=py38h06a4308_0
+  - pytorch=1.13.1=py3.8_cuda11.6_cudnn8.3.2_0
+  - torchaudio=0.13.1=py38_cu116
+  - torchvision=0.14.1=py38_cu116 
+  - six=1.16.0=pyhd3eb1b0_0
+  - freetype=2.10.4=h5ab3b9f_0
+  - osmesa=12.2.2
+  - h5py=3.9.0=py38he06866b_0
+  - pip:
+    - tqdm
+    - imageio==2.31.3 
+    - --extra-index-url https://download.pytorch.org/whl/cu116
+    - torch==1.13.1+cu116
+    - torchvision==0.14.1+cu116
+    - torchaudio==0.13.1
+    - google-auth==1.35.0
+    - google-auth-oauthlib==0.4.5
+    - matplotlib==3.1.3
+    - matplotlib-inline==0.1.6
+    - ipython==8.12.2
+    - gdown==4.6.1
+    - protobuf==3.20.0
+    - numpy==1.21.5
+    - scipy==1.7.1
+    - tensorboard==2.6.0
+    - shapely==1.8.1
+    - pyrender==0.1.45
+    - mapbox-earcut==1.0.0
+    - smplx==0.1.28
+    - huggingface_hub[cli]
+    - git+https://github.com/openai/CLIP.git
+    - git+https://github.com/nghorbani/human_body_prior@4c246d8
