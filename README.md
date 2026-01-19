@@ -1,4 +1,5 @@
 # Tai-Chi: Text-to-Motion Generation with Locality-Aware Bipartite Body-Part Motion Prior
+The official implementation of *Tai-Chi: Text-to-Motion Generation with Locality-Aware Bipartite Body-Part Motion Prior*.
 ## Abstract
 With rising demands in animation production, text-to-motion generation has become essential for the film and gaming industries. Yet, generating high-fidelity motions that seamlessly align with intended semantic meanings remains an open challenge.
 
