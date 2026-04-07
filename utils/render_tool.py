@@ -52,6 +52,19 @@ def xrot_trans_to_pose(angle, translation):
                      [0, sin_angle, cos_angle, translation[2]],
                      [0, 0, 0, 1]])
 
+from scipy.ndimage import gaussian_filter
+def motion_feature_temporal_filter(motion, sigma=1):
+    for i in range(motion.shape[1]):
+        motion[:, i] = gaussian_filter(motion[:, i],
+                                    sigma=sigma,
+                                    mode="nearest")
+    return motion
+
+def smooth_humanml_part(motion, sigma=1):
+    smoothed_motion = np.array(motion)
+    smoothed_motion[:, :259] = motion_feature_temporal_filter(motion[:, :259], sigma)
+    return smoothed_motion
+
 def render_smpl_mesh(motions, poses, with_floor=False, **kwargs):
     bg_color = [1, 1, 1, 0.8]
     ambient_light = (0.4, 0.4, 0.4)

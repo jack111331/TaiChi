@@ -1,4 +1,5 @@
-from utils.render_tool import render_smpl_mesh, render_smpl_mesh_still, render_skeleton, body_part_dict
+from utils.render_tool import render_smpl_mesh, render_smpl_mesh_still, render_skeleton, body_part_dict, smooth_humanml_part
+from utils.motion_process import recover_from_ric
 from visualization.joints2bvh import Joint2BVHConvertor
 import numpy as np
 import imageio
@@ -154,29 +155,6 @@ def generate_motions(text_prompts):
             index_motion_down_k = index_motion_down[0:1, :pred_token_len[0]]
             pred_pose = net.forward_decoder((index_motion_up_k[..., None], index_motion_down_k[..., None]))
 
-        from utils.motion_process import recover_from_ric
-        from scipy.ndimage import gaussian_filter
-        def motion_feature_temporal_filter(motion, sigma=1):
-            for i in range(motion.shape[1]):
-                motion[:, i] = gaussian_filter(motion[:, i],
-                                            sigma=sigma,
-                                            mode="nearest")
-            return motion
-
-        def smooth_humanml_part(motion, sigma=1):
-            def get_pos_rot_vel_idx(joint_idx):
-                return [j for j in range(4 + joint_idx * 3, 4 + joint_idx * 3 + 3)] + [j for j in range(4 + 63 + joint_idx * 6, 4 + 63 + joint_idx * 6 + 6)] + [j for j in range(196 + joint_idx * 3, 196 + joint_idx * 3 + 3)]
-            smoothed_motion = np.array(motion)
-            # target_joint_idx = get_pos_rot_vel_idx(3) + get_pos_rot_vel_idx(6) + get_pos_rot_vel_idx(9) + get_pos_rot_vel_idx(12) + get_pos_rot_vel_idx(15) # Spine1 + Spine2 + neck + Head
-            target_joint_idx = [j for j in range(0, 4)] + [j for j in range(193, 196)] + get_pos_rot_vel_idx(3-1) + get_pos_rot_vel_idx(6-1) + get_pos_rot_vel_idx(9-1) + get_pos_rot_vel_idx(12-1) + get_pos_rot_vel_idx(15-1) # Spine2 + neck
-            # Lower-body
-            # target_joint_idx += get_pos_rot_vel_idx(1-1) + get_pos_rot_vel_idx(2-1) + get_pos_rot_vel_idx(4-1) + get_pos_rot_vel_idx(5-1) + get_pos_rot_vel_idx(7-1) + get_pos_rot_vel_idx(8-1) + get_pos_rot_vel_idx(10-1) + get_pos_rot_vel_idx(11-1) # LR Hips + LR Knee + LR ankle + LR foot
-            # Upper-body
-            # target_joint_idx += get_pos_rot_vel_idx(13-1) + get_pos_rot_vel_idx(14-1) + get_pos_rot_vel_idx(16-1) + get_pos_rot_vel_idx(17-1) + get_pos_rot_vel_idx(18-1) + get_pos_rot_vel_idx(19-1) + get_pos_rot_vel_idx(20-1) + get_pos_rot_vel_idx(21-1) # LR Collar + LR Shoulder + LR elbow + LR wrist
-            smoothed_motion[:, target_joint_idx] = motion_feature_temporal_filter(motion[:, target_joint_idx], sigma)
-            # smoothed_motion[:, :259] = motion_feature_temporal_filter(motion[:, :259], sigma)
-            return smoothed_motion
-        
         pred_pose = torch.from_numpy(smooth_humanml_part(pred_pose[0].detach().cpu().numpy())).cuda()[None, ...]        
         pred_xyz = recover_from_ric((pred_pose*std+mean).float(), 22)
         xyz = pred_xyz.reshape(1, -1, 22, 3)

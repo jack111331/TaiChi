@@ -1,5 +1,7 @@
 # Tai-Chi: Text-to-Motion Generation with Locality-Aware Bipartite Body-Part Motion Prior
 The official implementation of *Tai-Chi: Text-to-Motion Generation with Locality-Aware Bipartite Body-Part Motion Prior*.
+\[Paper\]\[[Project](https://jack111331.github.io/BlogPage/anonymous/)\]
+![Thumbnail image](assets/Thumbnail_webpage.jpg)
 ## Abstract
 With rising demands in animation production, text-to-motion generation has become essential for the film and gaming industries. Yet, generating high-fidelity motions that seamlessly align with intended semantic meanings remains an open challenge.
 
@@ -19,6 +21,8 @@ Please follow the **Installation** section from [T2M-GPT](https://github.com/Mae
 
 # Evaluation
 After configured dependencies section, run the following codes to produce PM-VQ-VAE and LPT-GPT's evaluation results.
+
+# HumanML3D dataset evaluation
 ## PM-VQ-VAE evaluation
 ```
 export DATASET_DIR=<Absolute path to evaluation dataset>
@@ -72,6 +76,9 @@ python3 -m tools.GPT_eval_multi  \
 --vq-resume-setting-pth output/PMVQVAE/vq_setting.json \
 --lptgpt-resume-setting-pth output/LPTGPT/lpt_gpt_setting.json
 ```
+
+# KIT-ML dataset evaluation
+Coming soon
 
 # Demo
 To render generation results in skeleton animated images, run the following command.
